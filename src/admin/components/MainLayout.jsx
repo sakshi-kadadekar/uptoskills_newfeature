@@ -2,9 +2,9 @@
 //  ADMIN — MainLayout.jsx (Responsive)
 // ══════════════════════════════════════════════
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import Header from "./Header";
 import Sidebar from "./Sidebar";
-import Header  from "./Header";
 
 const PAGE_TITLES = {
   "admin-dashboard":     "Admin Overview",
@@ -13,6 +13,7 @@ const PAGE_TITLES = {
   "admin-knowledge":     "Knowledge Base",
   "admin-kanban":        "Task Board",
   "admin-reports":       "Reports",
+  "admin-leave":         "Leave Management",
   "admin-analytics":     "Analytics",
   "admin-calendar":      "Calendar",
   "admin-announcements": "Announcements",

@@ -1,12 +1,30 @@
 // ════════════════════════════════════════════════════════════
 //  USER — components/Sidebar.jsx
 // ════════════════════════════════════════════════════════════
-import { useState } from 'react';
 import {
-  LayoutDashboard, BookOpen, MessageSquare, FileText,
-  CalendarCheck, Bot, Megaphone, BarChart2, User, Settings, Activity,
-  LayoutGrid, Calendar, Folder, Bell, Download, ChevronRight, ChevronLeft, LogOut, Target,
+    Activity,
+    BarChart2,
+    Bell,
+    BookOpen,
+    Bot,
+    Calendar,
+    CalendarCheck,
+    CalendarOff,
+    ChevronLeft,
+    ChevronRight,
+    Download,
+    FileText,
+    Folder,
+    LayoutDashboard,
+    LayoutGrid,
+    LogOut,
+    Megaphone,
+    MessageSquare,
+    Settings,
+    Target,
+    User,
 } from 'lucide-react';
+import { useState } from 'react';
 import { useAuthStore } from '../../lib/auth';
 import { APP_CONSTANTS } from '../../shared/config/constants';
 
@@ -17,6 +35,7 @@ const MENU = [
   { id: 'kanban',         label: 'Task Board',     icon: LayoutGrid      },
   { id: 'reports',        label: 'My Reports',     icon: FileText        },
   { id: 'attendance',     label: 'Attendance',     icon: CalendarCheck   },
+  { id: 'leave',          label: 'Leave',          icon: CalendarOff     },
   { id: 'calendar',       label: 'Calendar',       icon: Calendar        },
   { id: 'files',          label: 'Files',          icon: Folder          },
   { id: 'ai',             label: 'AI Assistant',   icon: Bot             },

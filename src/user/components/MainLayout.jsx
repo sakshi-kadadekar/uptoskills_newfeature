@@ -1,9 +1,9 @@
 // ════════════════════════════════════════════════════════════
 //  USER — components/MainLayout.jsx
 // ════════════════════════════════════════════════════════════
-import { useState, useEffect } from 'react';
-import Sidebar from './Sidebar';
+import { useEffect, useState } from 'react';
 import Header from './Header';
+import Sidebar from './Sidebar';
 
 const PAGE_TITLES = {
   dashboard:      'Dashboard',
@@ -15,6 +15,7 @@ const PAGE_TITLES = {
   files:          'Files',
   reports:        'My Reports',
   attendance:     'Attendance',
+  leave:          'Leave & Time Off',
   ai:             'AI Assistant',
   notifications:  'Notifications',
   announcements:  'Announcements',

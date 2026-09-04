@@ -2,13 +2,26 @@
 //  ADMIN — Sidebar.jsx  (UptoSkills — Responsive)
 // ══════════════════════════════════════════════
 
-import { useState } from "react";
 import {
-  LayoutDashboard, Users, BookOpen, FileText,
-  BarChart2, Megaphone, Settings, Shield,
-  ChevronRight, ChevronLeft, LogOut, ScrollText,
-  LayoutGrid, Calendar, Folder, Bell, Webhook,
+    BarChart2,
+    Bell,
+    BookOpen,
+    Calendar,
+    CalendarOff,
+    ChevronLeft,
+    ChevronRight,
+    FileText,
+    Folder,
+    LayoutDashboard,
+    LayoutGrid,
+    LogOut,
+    Megaphone,
+    ScrollText,
+    Settings, Shield,
+    Users,
+    Webhook,
 } from "lucide-react";
+import { useState } from "react";
 import { useAuthStore } from '../../lib/auth';
 import { APP_CONSTANTS } from '../../shared/config/constants';
 
@@ -19,6 +32,7 @@ const ADMIN_MENU = [
   { id: "admin-knowledge",     label: "Knowledge Base",    icon: BookOpen        },
   { id: "admin-kanban",        label: "Task Board",        icon: LayoutGrid      },
   { id: "admin-reports",       label: "Reports",           icon: FileText        },
+  { id: "admin-leave",         label: "Leave Management",  icon: CalendarOff     },
   { id: "admin-analytics",     label: "Analytics",         icon: BarChart2       },
   { id: "admin-calendar",      label: "Calendar",          icon: Calendar        },
   { id: "admin-announcements", label: "Announcements",     icon: Megaphone       },

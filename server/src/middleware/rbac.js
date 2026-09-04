@@ -37,6 +37,13 @@ export const PERMISSIONS = {
   'attendance:mark':       ['SUPER_ADMIN', 'ADMIN', 'MENTOR'],
   'attendance:self':       ['INTERN', 'MENTOR', 'ADMIN', 'SUPER_ADMIN'],
 
+  // Leave / time-off
+  'leaves:read':      ['SUPER_ADMIN', 'ADMIN', 'MENTOR', 'INTERN'],
+  'leaves:create':    ['INTERN', 'MENTOR'],
+  'leaves:review':    ['SUPER_ADMIN', 'ADMIN', 'MENTOR'],
+  'leaves:cancel':    ['INTERN', 'MENTOR', 'ADMIN', 'SUPER_ADMIN'],
+  'leaves:delete':    ['SUPER_ADMIN', 'ADMIN'],
+
   // Projects & Tasks
   'projects:read':   ['SUPER_ADMIN', 'ADMIN', 'MENTOR', 'INTERN'],
   'projects:create': ['SUPER_ADMIN', 'ADMIN', 'MENTOR'],

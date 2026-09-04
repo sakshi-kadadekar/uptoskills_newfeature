@@ -1,11 +1,21 @@
 // ════════════════════════════════════════════════════════════
 //  Mentor — Sidebar.jsx
 // ════════════════════════════════════════════════════════════
-import { useState } from 'react';
 import {
-  LayoutDashboard, Users, FileText, Activity, BookOpen, MessageSquare,
-  Megaphone, Bot, User, Settings, ChevronLeft, ChevronRight, LogOut,
+    Activity, BookOpen,
+    Bot,
+    CalendarOff,
+    ChevronLeft, ChevronRight,
+    FileText,
+    LayoutDashboard,
+    LogOut,
+    Megaphone,
+    MessageSquare,
+    Settings,
+    User,
+    Users,
 } from 'lucide-react';
+import { useState } from 'react';
 import { useAuthStore } from '../../lib/auth';
 import { APP_CONSTANTS } from '../../shared/config/constants';
 
@@ -13,6 +23,7 @@ const MENU = [
   { id: 'dashboard',     label: 'Dashboard',      icon: LayoutDashboard },
   { id: 'interns',       label: 'My Interns',     icon: Users           },
   { id: 'reports',       label: 'Report Reviews', icon: FileText        },
+  { id: 'leave',         label: 'Leave Requests', icon: CalendarOff     },
   { id: 'projects',      label: 'Projects',       icon: Activity        },
   { id: 'knowledge',     label: 'Knowledge Base', icon: BookOpen        },
   { id: 'qa',            label: 'Q&A Forum',      icon: MessageSquare   },

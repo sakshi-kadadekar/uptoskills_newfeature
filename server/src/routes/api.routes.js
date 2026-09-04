@@ -3,16 +3,17 @@
 // ════════════════════════════════════════════════════════════
 import { Router } from 'express';
 import { z } from 'zod';
-import * as reports from '../controllers/reports.controller.js';
-import * as announcements from '../controllers/announcements.controller.js';
-import * as qa from '../controllers/qa.controller.js';
-import * as attendance from '../controllers/attendance.controller.js';
-import * as projects from '../controllers/projects.controller.js';
 import * as ai from '../controllers/ai.controller.js';
+import * as announcements from '../controllers/announcements.controller.js';
+import * as attendance from '../controllers/attendance.controller.js';
+import * as leave from '../controllers/leave.controller.js';
 import * as notif from '../controllers/notifications.controller.js';
+import * as projects from '../controllers/projects.controller.js';
+import * as qa from '../controllers/qa.controller.js';
+import * as reports from '../controllers/reports.controller.js';
 import { authenticate, requireAuth } from '../middleware/auth.js';
 import { requirePermission } from '../middleware/rbac.js';
-import { validate, schemas } from '../middleware/validate.js';
+import { schemas, validate } from '../middleware/validate.js';
 
 const api = Router();
 api.use(authenticate, requireAuth);
@@ -165,6 +166,38 @@ api.post(
   validate(z.object({ status: z.enum(['PRESENT', 'LEAVE']).default('PRESENT'), notes: z.string().max(300).optional() })),
   attendance.checkInOut
 );
+
+// ── Leave / time-off ──────────────────────────────────────
+api.get('/leave', requirePermission('leaves:read'), validate(schemas.pagination, 'query'), leave.list);
+api.get('/leave/stats', requirePermission('leaves:read'), leave.stats);
+api.get('/leave/:id', requirePermission('leaves:read'), validate(idParam, 'params'), leave.getById);
+api.post(
+  '/leave',
+  requirePermission('leaves:create'),
+  validate(
+    z.object({
+      type: z.enum(['SICK', 'CASUAL', 'VACATION', 'EMERGENCY', 'OTHER']).default('CASUAL'),
+      startDate: z.coerce.date(),
+      endDate: z.coerce.date(),
+      reason: z.string().trim().min(3).max(500),
+    })
+  ),
+  leave.create
+);
+api.patch(
+  '/leave/:id/review',
+  requirePermission('leaves:review'),
+  validate(idParam, 'params'),
+  validate(
+    z.object({
+      status: z.enum(['APPROVED', 'REJECTED']),
+      reviewNote: z.string().max(500).optional(),
+    })
+  ),
+  leave.review
+);
+api.post('/leave/:id/cancel', requirePermission('leaves:cancel'), validate(idParam, 'params'), leave.cancel);
+api.delete('/leave/:id', requirePermission('leaves:delete'), validate(idParam, 'params'), leave.remove);
 
 // ── Projects ──────────────────────────────────────────────
 api.get('/projects', requirePermission('projects:read'), validate(schemas.pagination, 'query'), projects.listProjects);

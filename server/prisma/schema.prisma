@@ -57,6 +57,8 @@ model User {
   refreshTokens     RefreshToken[]
   reports           Report[]
   attendances       Attendance[]
+  leaveRequests     LeaveRequest[]    @relation("LeaveRequester")
+  leaveReviews      LeaveRequest[]    @relation("LeaveReviewer")
   projectTasks      ProjectTask[]
   announcements     Announcement[]    @relation("AnnouncementAuthor")
   announcementsReads AnnouncementRead[]
@@ -208,6 +210,44 @@ model Attendance {
   @@unique([userId, date])
   @@index([date])
   @@index([status])
+}
+
+// ── Leave / time-off requests ─────────────────────────────
+enum LeaveType {
+  SICK
+  CASUAL
+  VACATION
+  EMERGENCY
+  OTHER
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+model LeaveRequest {
+  id           String      @id @default(cuid())
+  userId       String
+  user         User        @relation("LeaveRequester", fields: [userId], references: [id], onDelete: Cascade)
+  type         LeaveType   @default(CASUAL)
+  startDate    DateTime    @db.Date
+  endDate      DateTime    @db.Date
+  days         Int
+  reason       String
+  status       LeaveStatus @default(PENDING)
+  reviewedById String?
+  reviewer     User?       @relation("LeaveReviewer", fields: [reviewedById], references: [id])
+  reviewNote   String?
+  reviewedAt   DateTime?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([startDate, endDate])
 }
 
 // ── Projects & Tasks ───────────────────────────────────────

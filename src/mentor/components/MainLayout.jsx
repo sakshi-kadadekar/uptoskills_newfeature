@@ -1,14 +1,15 @@
 // ════════════════════════════════════════════════════════════
 //  Mentor — MainLayout.jsx
 // ════════════════════════════════════════════════════════════
-import { useState, useEffect } from 'react';
-import Sidebar from './Sidebar';
+import { useEffect, useState } from 'react';
 import Header from './Header';
+import Sidebar from './Sidebar';
 
 const PAGE_TITLES = {
   dashboard:      'Mentor Dashboard',
   interns:        'My Interns',
   reports:        'Reports to Review',
+  leave:          'Leave Requests',
   projects:       'Projects & Tasks',
   knowledge:      'Knowledge Base',
   qa:             'Q&A Forum',

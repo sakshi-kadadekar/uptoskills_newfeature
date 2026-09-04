@@ -1,0 +1,17 @@
+import { CalendarOff, CheckCircle, Loader2, XCircle } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import api from '../../lib/api';
+import notify from '../../lib/toast';
+import { formatDate, formatRelative } from '../../lib/utils';
+import { Badge, Card, Modal, SectionHeader } from '../../shared/components/UI';
+
+const VARIANTS = { PENDING: 'warning', APPROVED: 'success', REJECTED: 'danger', CANCELLED: 'default' };
+const Leave = () => {
+  const [items, setItems] = useState([]); const [filter, setFilter] = useState('PENDING'); const [selected, setSelected] = useState(null); const [note, setNote] = useState(''); const [loading, setLoading] = useState(true);
+  const load = async () => { setLoading(true); try { setItems((await api.get('/leave', { params: { limit: 50, status: filter === 'ALL' ? undefined : filter } })).data.items); } finally { setLoading(false); } };
+  useEffect(() => { load(); }, [filter]);
+  const review = async (status) => { try { await api.patch(`/leave/${selected.id}/review`, { status, reviewNote: note || undefined }); notify.success(`Leave ${status.toLowerCase()}.`); setSelected(null); load(); } catch (error) { notify.error(error.response?.data?.error || 'Review failed.'); } };
+  if (loading) return <div className="flex items-center justify-center min-h-[60vh]"><Loader2 className="animate-spin" size={28} /></div>;
+  return <div className="space-y-6"><SectionHeader title="Leave Requests" subtitle="Approve or reject requests from your interns" /><div className="flex gap-2 flex-wrap">{['PENDING', 'APPROVED', 'REJECTED', 'ALL'].map((value) => <button key={value} onClick={() => setFilter(value)} className={`px-4 py-1.5 rounded-full text-sm ${filter === value ? 'bg-purple-600 text-white' : 'border'}`}>{value}</button>)}</div><div className="space-y-3">{items.map((leave) => <Card key={leave.id} className="p-5 cursor-pointer" onClick={() => { setSelected(leave); setNote(leave.reviewNote || ''); }}><div className="flex items-center gap-4"><CalendarOff size={22} /><div className="flex-1"><h3 className="font-semibold">{leave.user?.name} · {leave.days} day{leave.days > 1 ? 's' : ''}</h3><p className="text-xs text-slate-400">{formatDate(leave.startDate)} - {formatDate(leave.endDate)} · {formatRelative(leave.createdAt)}</p><p className="text-sm mt-1" style={{ color: 'var(--muted)' }}>{leave.reason}</p></div><Badge variant={VARIANTS[leave.status]}>{leave.status}</Badge></div></Card>)}{!items.length && <p className="text-center py-16 text-slate-400">No leave requests in this view.</p>}</div><Modal isOpen={!!selected} onClose={() => setSelected(null)} title="Review leave request" footer={selected?.status === 'PENDING' && <><button onClick={() => review('REJECTED')} className="flex items-center gap-2 px-4 py-2 text-red-600 border rounded-lg"><XCircle size={14} /> Reject</button><button onClick={() => review('APPROVED')} className="flex items-center gap-2 px-4 py-2 text-white rounded-lg bg-purple-600"><CheckCircle size={14} /> Approve</button></>}>{selected && <div className="space-y-3"><p className="font-semibold">{selected.user?.name}</p><p className="text-xs">{selected.type} leave · {formatDate(selected.startDate)} - {formatDate(selected.endDate)}</p><p>{selected.reason}</p>{selected.status === 'PENDING' && <textarea value={note} onChange={(event) => setNote(event.target.value)} rows={3} placeholder="Note (optional)" className="w-full border rounded-lg p-2" />}</div>}</Modal></div>;
+};
+export default Leave;

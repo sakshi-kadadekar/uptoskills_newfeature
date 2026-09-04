@@ -1,13 +1,14 @@
 // ════════════════════════════════════════════════════════════
 //  Mentor — App.jsx (lazy-loaded pages)
 // ════════════════════════════════════════════════════════════
-import { useState, Suspense, lazy } from 'react';
+import { Suspense, lazy, useState } from 'react';
+import { PageLoader } from '../shared/components/Skeleton';
 import MainLayout from './components/MainLayout';
 import Dashboard from './pages/Dashboard';
-import { PageLoader } from '../shared/components/Skeleton';
 
 const Interns        = lazy(() => import('./pages/Interns'));
 const Reports        = lazy(() => import('./pages/Reports'));
+const Leave           = lazy(() => import('./pages/Leave'));
 const Projects       = lazy(() => import('./pages/Projects'));
 const KnowledgeBase  = lazy(() => import('./pages/KnowledgeBase'));
 const QnA            = lazy(() => import('./pages/QnA'));
@@ -20,6 +21,7 @@ const PAGES = {
   dashboard:      <Dashboard />,
   interns:        <Suspense fallback={<PageLoader />}><Interns /></Suspense>,
   reports:        <Suspense fallback={<PageLoader />}><Reports /></Suspense>,
+  leave:          <Suspense fallback={<PageLoader />}><Leave /></Suspense>,
   projects:       <Suspense fallback={<PageLoader />}><Projects /></Suspense>,
   knowledge:      <Suspense fallback={<PageLoader />}><KnowledgeBase /></Suspense>,
   qa:             <Suspense fallback={<PageLoader />}><QnA /></Suspense>,

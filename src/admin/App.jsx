@@ -1,15 +1,16 @@
 // ════════════════════════════════════════════════════════════
 //  ADMIN — App.jsx (lazy-loaded pages for fastest initial paint)
 // ════════════════════════════════════════════════════════════
-import { useState, Suspense, lazy } from 'react';
+import { Suspense, lazy, useState } from 'react';
+import { PageLoader } from '../shared/components/Skeleton';
 import MainLayout from './components/MainLayout';
 import Dashboard from './pages/Dashboard';
-import { PageLoader } from '../shared/components/Skeleton';
 
 const AdminPanel         = lazy(() => import('./pages/AdminPanel'));
 const Management         = lazy(() => import('./pages/Management'));
 const KnowledgeBase      = lazy(() => import('./pages/KnowledgeBase'));
 const Reports            = lazy(() => import('./pages/Reports'));
+const Leave               = lazy(() => import('./pages/Leave'));
 const Analytics          = lazy(() => import('./pages/Analytics'));
 const Announcements      = lazy(() => import('./pages/Announcements'));
 const Settings           = lazy(() => import('./pages/Settings'));
@@ -26,6 +27,7 @@ const PAGES = {
   'admin-management':    <Suspense fallback={<PageLoader />}><Management /></Suspense>,
   'admin-knowledge':     <Suspense fallback={<PageLoader />}><KnowledgeBase /></Suspense>,
   'admin-reports':       <Suspense fallback={<PageLoader />}><Reports /></Suspense>,
+  'admin-leave':         <Suspense fallback={<PageLoader />}><Leave /></Suspense>,
   'admin-analytics':     <Suspense fallback={<PageLoader />}><Analytics /></Suspense>,
   'admin-announcements': <Suspense fallback={<PageLoader />}><Announcements /></Suspense>,
   'admin-kanban':        <Suspense fallback={<PageLoader />}><Kanban /></Suspense>,
