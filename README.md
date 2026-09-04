@@ -289,6 +289,20 @@ All routes (except `/auth/login`, `/auth/verify-otp`, `/auth/refresh`, `/healthz
 | PATCH  | `/reports/:id/review` | `reports:review` | Mentor / admin review |
 | DELETE | `/reports/:id` | `reports:delete` | Delete |
 
+### Exit / offboarding (`/exit`)
+
+Exit workflows are created automatically at 01:00 when an active intern's end
+date is within seven days. Admins and mentors can monitor assigned workflows;
+interns can complete their checklist and submit one feedback survey.
+
+| Method | Path | Permission | Purpose |
+| --- | --- | --- | --- |
+| GET | `/exit/:internId` | `exits:read` | Get a checklist and feedback status |
+| GET | `/exit/admin` | `exits:admin` | List workflows (mentor results are scoped to assigned interns) |
+| POST | `/exit/:internId/trigger` | `exits:trigger` | Trigger a workflow manually |
+| PATCH | `/exit/checklist-item/:itemId` | `exits:update` | Complete or reopen a checklist item |
+| POST | `/exit/:internId/feedback` | `exits:feedback` | Submit intern exit feedback |
+
 ### Announcements (`/announcements`)
 
 | Method | Path | Permission | Purpose |

@@ -44,6 +44,13 @@ export const PERMISSIONS = {
   'leaves:cancel':    ['INTERN', 'MENTOR', 'ADMIN', 'SUPER_ADMIN'],
   'leaves:delete':    ['SUPER_ADMIN', 'ADMIN'],
 
+  // Exit / offboarding workflow
+  'exits:read':       ['SUPER_ADMIN', 'ADMIN', 'MENTOR', 'INTERN'],
+  'exits:update':     ['SUPER_ADMIN', 'ADMIN', 'MENTOR', 'INTERN'],
+  'exits:feedback':   ['INTERN'],
+  'exits:trigger':    ['SUPER_ADMIN', 'ADMIN', 'MENTOR'],
+  'exits:admin':      ['SUPER_ADMIN', 'ADMIN'],
+
   // Projects & Tasks
   'projects:read':   ['SUPER_ADMIN', 'ADMIN', 'MENTOR', 'INTERN'],
   'projects:create': ['SUPER_ADMIN', 'ADMIN', 'MENTOR'],

@@ -59,6 +59,8 @@ model User {
   attendances       Attendance[]
   leaveRequests     LeaveRequest[]    @relation("LeaveRequester")
   leaveReviews      LeaveRequest[]    @relation("LeaveReviewer")
+  exitChecklist     ExitChecklist?
+  exitFeedback      ExitFeedback?
   projectTasks      ProjectTask[]
   announcements     Announcement[]    @relation("AnnouncementAuthor")
   announcementsReads AnnouncementRead[]
@@ -248,6 +250,58 @@ model LeaveRequest {
   @@index([userId])
   @@index([status])
   @@index([startDate, endDate])
+}
+
+// ── Exit / offboarding workflow ──────────────────────────
+enum ExitChecklistStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+model ExitChecklist {
+  id          String              @id @default(cuid())
+  internId    String              @unique
+  intern      User                @relation(fields: [internId], references: [id], onDelete: Cascade)
+  status      ExitChecklistStatus @default(PENDING)
+  triggeredAt DateTime            @default(now())
+  completedAt DateTime?
+  items       ExitChecklistItem[]
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  @@index([status])
+  @@index([triggeredAt])
+}
+
+model ExitChecklistItem {
+  id              String        @id @default(cuid())
+  exitChecklistId String
+  checklist       ExitChecklist @relation(fields: [exitChecklistId], references: [id], onDelete: Cascade)
+  label           String
+  category        String?
+  isCompleted     Boolean       @default(false)
+  completedAt     DateTime?
+  order           Int           @default(0)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([exitChecklistId, order])
+}
+
+model ExitFeedback {
+  id                 String   @id @default(cuid())
+  internId           String   @unique
+  intern             User     @relation(fields: [internId], references: [id], onDelete: Cascade)
+  overallRating      Int
+  mentorshipRating   Int?
+  wouldRecommend     Boolean?
+  whatWentWell       String?
+  whatCouldImprove   String?
+  additionalComments String?
+  submittedAt        DateTime @default(now())
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 }
 
 // ── Projects & Tasks ───────────────────────────────────────

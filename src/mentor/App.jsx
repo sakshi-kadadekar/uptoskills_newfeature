@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard';
 const Interns        = lazy(() => import('./pages/Interns'));
 const Reports        = lazy(() => import('./pages/Reports'));
 const Leave           = lazy(() => import('./pages/Leave'));
+const ExitWorkflow    = lazy(() => import('./pages/ExitWorkflow'));
 const Projects       = lazy(() => import('./pages/Projects'));
 const KnowledgeBase  = lazy(() => import('./pages/KnowledgeBase'));
 const QnA            = lazy(() => import('./pages/QnA'));
@@ -22,6 +23,7 @@ const PAGES = {
   interns:        <Suspense fallback={<PageLoader />}><Interns /></Suspense>,
   reports:        <Suspense fallback={<PageLoader />}><Reports /></Suspense>,
   leave:          <Suspense fallback={<PageLoader />}><Leave /></Suspense>,
+  exit:           <Suspense fallback={<PageLoader />}><ExitWorkflow /></Suspense>,
   projects:       <Suspense fallback={<PageLoader />}><Projects /></Suspense>,
   knowledge:      <Suspense fallback={<PageLoader />}><KnowledgeBase /></Suspense>,
   qa:             <Suspense fallback={<PageLoader />}><QnA /></Suspense>,

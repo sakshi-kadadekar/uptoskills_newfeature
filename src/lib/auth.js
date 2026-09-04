@@ -2,8 +2,8 @@
 //  Auth Store — Zustand
 // ════════════════════════════════════════════════════════════
 import { create } from 'zustand';
-import api, { getErrorMessage } from './api';
 import { APP_CONSTANTS } from '../shared/config/constants';
+import api, { getErrorMessage } from './api';
 
 const loadFromStorage = () => {
   try {
@@ -150,6 +150,7 @@ const ROLE_PERMISSIONS = {
     'tasks:read','tasks:create','tasks:update','tasks:delete',
     'qa:read','qa:create','qa:update','qa:delete',
     'ai:use',
+    'exits:read','exits:update','exits:trigger','exits:admin',
     'settings:read','settings:update','audit:read',
   ],
   ADMIN: [
@@ -162,6 +163,7 @@ const ROLE_PERMISSIONS = {
     'tasks:read','tasks:create','tasks:update','tasks:delete',
     'qa:read','qa:create','qa:update','qa:delete',
     'ai:use','settings:read',
+    'exits:read','exits:update','exits:trigger','exits:admin',
   ],
   MENTOR: [
     'users:read',
@@ -173,6 +175,7 @@ const ROLE_PERMISSIONS = {
     'tasks:read','tasks:create','tasks:update','tasks:delete',
     'qa:read','qa:create','qa:update',
     'ai:use',
+    'exits:read','exits:update','exits:trigger',
   ],
   INTERN: [
     'reports:read','reports:create','reports:update',
@@ -183,6 +186,7 @@ const ROLE_PERMISSIONS = {
     'tasks:read','tasks:update',
     'qa:read','qa:create','qa:update',
     'ai:use',
+    'exits:read','exits:update','exits:feedback',
   ],
 };
 

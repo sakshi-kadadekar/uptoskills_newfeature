@@ -6,6 +6,7 @@ import { z } from 'zod';
 import * as ai from '../controllers/ai.controller.js';
 import * as announcements from '../controllers/announcements.controller.js';
 import * as attendance from '../controllers/attendance.controller.js';
+import * as exit from '../controllers/exit.controller.js';
 import * as leave from '../controllers/leave.controller.js';
 import * as notif from '../controllers/notifications.controller.js';
 import * as projects from '../controllers/projects.controller.js';
@@ -198,6 +199,32 @@ api.patch(
 );
 api.post('/leave/:id/cancel', requirePermission('leaves:cancel'), validate(idParam, 'params'), leave.cancel);
 api.delete('/leave/:id', requirePermission('leaves:delete'), validate(idParam, 'params'), leave.remove);
+
+// ── Exit / offboarding workflow ──────────────────────────
+api.get('/exit/admin', requirePermission('exits:read'), exit.listExitWorkflows);
+api.get('/exit/:internId', requirePermission('exits:read'), validate(exit.exitInternIdSchema, 'params'), exit.getExitStatus);
+api.post('/exit/:internId/trigger', requirePermission('exits:trigger'), validate(exit.exitInternIdSchema, 'params'), exit.triggerExitWorkflow);
+api.patch(
+  '/exit/checklist-item/:itemId',
+  requirePermission('exits:update'),
+  validate(exit.exitItemIdSchema, 'params'),
+  validate(z.object({ isCompleted: z.boolean() })),
+  exit.updateChecklistItem
+);
+api.post(
+  '/exit/:internId/feedback',
+  requirePermission('exits:feedback'),
+  validate(exit.exitInternIdSchema, 'params'),
+  validate(z.object({
+    overallRating: z.number().int().min(1).max(5),
+    mentorshipRating: z.number().int().min(1).max(5).optional(),
+    wouldRecommend: z.boolean().optional(),
+    whatWentWell: z.string().max(4000).optional(),
+    whatCouldImprove: z.string().max(4000).optional(),
+    additionalComments: z.string().max(4000).optional(),
+  })),
+  exit.submitFeedback
+);
 
 // ── Projects ──────────────────────────────────────────────
 api.get('/projects', requirePermission('projects:read'), validate(schemas.pagination, 'query'), projects.listProjects);

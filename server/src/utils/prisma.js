@@ -1,7 +1,7 @@
 // ════════════════════════════════════════════════════════════
 //  Prisma Client Singleton (prevents connection storms in dev)
 // ════════════════════════════════════════════════════════════
-import { PrismaClient } from '@prisma/client';
+import prismaClientPackage from '@prisma/client';
 import { config } from '../config/index.js';
 import { logger } from './logger.js';
 
@@ -9,7 +9,7 @@ const globalForPrisma = globalThis;
 
 export const prisma =
   globalForPrisma.__skillnovaPrisma ??
-  new PrismaClient({
+  new prismaClientPackage.PrismaClient({
     log: config.isProd
       ? ['error', 'warn']
       : [
